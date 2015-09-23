@@ -7,7 +7,6 @@
         "KEY_NETWORK_INFO": 2
     },
     "capabilities": [
-        "location",
         "configurable"
     ],
     "companyName": "Shakil K.",
