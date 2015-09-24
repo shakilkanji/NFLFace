@@ -111,6 +111,7 @@ function getScores(pos) {
       Pebble.sendAppMessage(dictionary,
         function(e) {
           console.log("Scores sent to Pebble successfully!");
+          console.log(desired_team);
         },
         function(e) {
           console.log("Error sending scores to Pebble!");

@@ -21,6 +21,7 @@ static BitmapLayer *s_background_layer;
 static GBitmap *s_background_bitmap;
 
 static bool twenty_four_hour_format = false;
+
 static char desired_team_buffer[16];
 
 static void update_time() {
@@ -313,9 +314,11 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 }
   
 static void init() {
+//   persist_read_string(KEY_DESIRED_TEAM, desired_team_buffer, sizeof(desired_team_buffer));
+  
   // Create main Window element and assign to pointer
   s_main_window = window_create();
-
+  
   // Set handlers to manage the elements inside the Window
   window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = main_window_load,
@@ -339,6 +342,8 @@ static void init() {
 }
 
 static void deinit() {
+//   persist_write_string(KEY_DESIRED_TEAM, desired_team_buffer);
+  
   // Destroy Window
   window_destroy(s_main_window);
 }
