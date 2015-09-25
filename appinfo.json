@@ -7,7 +7,8 @@
         "KEY_NETWORK_INFO": 2
     },
     "capabilities": [
-        "configurable"
+        "configurable",
+        "location"
     ],
     "companyName": "Shakil K.",
     "longName": "NFLFace",
