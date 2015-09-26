@@ -4,11 +4,12 @@
         "KEY_DATE_INFO": 3,
         "KEY_DESIRED_TEAM": 4,
         "KEY_HOME_INFO": 0,
-        "KEY_NETWORK_INFO": 2
+        "KEY_NETWORK_INFO": 2,
+        "KEY_PERSIST_TEAM": 5,
+        "KEY_TWENTY_FOUR_HOUR_FORMAT": 6
     },
     "capabilities": [
-        "configurable",
-        "location"
+        "configurable"
     ],
     "companyName": "Shakil K.",
     "longName": "NFLFace",
@@ -16,53 +17,123 @@
     "resources": {
         "media": [
             {
+                "file": "fonts/perfect-dos-vga.ttf",
+                "name": "FONT_PERFECT_14",
+                "type": "font"
+            },
+            {
+                "file": "fonts/perfect-dos-vga.ttf",
+                "name": "FONT_PERFECT_20",
+                "type": "font"
+            },
+            {
+                "file": "images/SF.png",
+                "name": "SF",
+                "type": "png"
+            },
+            {
                 "file": "images/BAL.png",
                 "name": "BAL",
                 "type": "png"
             },
             {
-                "file": "images/photo (1).png",
-                "name": "SF",
+                "file": "images/IND2.png",
+                "name": "IND2",
                 "type": "png"
             },
             {
-                "file": "images/SEA.png",
-                "name": "SEA",
+                "file": "images/CAR.png",
+                "name": "CAR",
                 "type": "png"
             },
             {
-                "file": "images/ARI.png",
-                "name": "ARI",
+                "file": "images/BUF.png",
+                "name": "BUF",
                 "type": "png"
             },
             {
-                "file": "images/TB.png",
-                "name": "TB",
+                "file": "images/OAK.png",
+                "name": "OAK",
                 "type": "png"
             },
             {
-                "file": "images/NYJ.png",
-                "name": "NYJ",
+                "file": "images/PHI.png",
+                "name": "PHI",
                 "type": "png"
             },
             {
-                "file": "images/CLE.png",
-                "name": "CLE",
+                "file": "images/NYG.png",
+                "name": "NYG",
                 "type": "png"
             },
             {
-                "file": "images/CIN2.png",
-                "name": "CIN",
+                "file": "images/NE.png",
+                "name": "NE",
                 "type": "png"
             },
             {
-                "file": "images/JAC.png",
-                "name": "JAC",
+                "file": "images/TB3.png",
+                "name": "TB3",
                 "type": "png"
             },
             {
-                "file": "images/MIA.png",
-                "name": "MIA",
+                "file": "images/TEN.png",
+                "name": "TEN",
+                "type": "png"
+            },
+            {
+                "file": "images/ATL.png",
+                "name": "ATL",
+                "type": "png"
+            },
+            {
+                "file": "images/PIT.png",
+                "name": "PIT",
+                "type": "png"
+            },
+            {
+                "file": "images/CLE2.png",
+                "name": "CLE2",
+                "type": "png"
+            },
+            {
+                "file": "images/CHI.png",
+                "name": "CHI",
+                "type": "png"
+            },
+            {
+                "file": "images/SD.png",
+                "name": "SD",
+                "type": "png"
+            },
+            {
+                "file": "fonts/Freshman.ttf",
+                "name": "FONT_FRESHMAN_40",
+                "type": "font"
+            },
+            {
+                "file": "images/MIN.png",
+                "name": "MIN",
+                "type": "png"
+            },
+            {
+                "file": "images/STL.png",
+                "name": "STL",
+                "type": "png"
+            },
+            {
+                "file": "images/DET.png",
+                "name": "DET",
+                "type": "png"
+            },
+            {
+                "file": "images/DAL.png",
+                "name": "DAL",
+                "type": "png"
+            },
+            {
+                "file": "images/DEN.png",
+                "name": "DEN",
                 "type": "png"
             },
             {
@@ -76,63 +147,8 @@
                 "type": "png"
             },
             {
-                "file": "images/CAR.png",
-                "name": "CAR",
-                "type": "png"
-            },
-            {
-                "file": "images/ATL.png",
-                "name": "ATL",
-                "type": "png"
-            },
-            {
-                "file": "images/OAK.png",
-                "name": "OAK",
-                "type": "png"
-            },
-            {
-                "file": "images/CLE2.png",
-                "name": "CLE2",
-                "type": "png"
-            },
-            {
-                "file": "images/NYG.png",
-                "name": "NYG",
-                "type": "png"
-            },
-            {
-                "file": "images/KC.png",
-                "name": "KC",
-                "type": "png"
-            },
-            {
-                "file": "images/STL.png",
-                "name": "STL",
-                "type": "png"
-            },
-            {
-                "file": "images/PIT.png",
-                "name": "PIT",
-                "type": "png"
-            },
-            {
-                "file": "images/PHI.png",
-                "name": "PHI",
-                "type": "png"
-            },
-            {
-                "file": "images/MIN.png",
-                "name": "MIN",
-                "type": "png"
-            },
-            {
-                "file": "images/DAL.png",
-                "name": "DAL",
-                "type": "png"
-            },
-            {
-                "file": "images/TB3.png",
-                "name": "TB3",
+                "file": "images/MIA.png",
+                "name": "MIA",
                 "type": "png"
             },
             {
@@ -141,67 +157,23 @@
                 "type": "png"
             },
             {
-                "file": "images/GB.png",
-                "name": "GB",
+                "file": "images/KC.png",
+                "name": "KC",
                 "type": "png"
             },
             {
-                "file": "images/BUF.png",
-                "name": "BUF",
+                "file": "images/CIN2.png",
+                "name": "CIN",
                 "type": "png"
             },
             {
-                "characterRegex": "[0-9:.]",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_14",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9:.]",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_20",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9:.]",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_40",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9:.]",
-                "file": "fonts/digital-7 (mono).ttf",
-                "name": "FONT_DIGITAL_40",
-                "type": "font"
-            },
-            {
-                "file": "images/IND.png",
-                "name": "IND",
+                "file": "images/JAC.png",
+                "name": "JAC",
                 "type": "png"
             },
             {
-                "file": "images/CHI.png",
-                "name": "CHI",
-                "type": "png"
-            },
-            {
-                "file": "fonts/Freshman.ttf",
-                "name": "FONT_FRESHMAN_40",
-                "type": "font"
-            },
-            {
-                "file": "images/SD.png",
-                "name": "SD",
-                "type": "png"
-            },
-            {
-                "file": "images/NE.png",
-                "name": "NE",
-                "type": "png"
-            },
-            {
-                "file": "images/DET.png",
-                "name": "DET",
+                "file": "images/SEA.png",
+                "name": "SEA",
                 "type": "png"
             },
             {
@@ -210,18 +182,13 @@
                 "type": "png"
             },
             {
-                "file": "images/TEN.png",
-                "name": "TEN",
+                "file": "images/NYJ.png",
+                "name": "NYJ",
                 "type": "png"
             },
             {
-                "file": "images/IND2.png",
-                "name": "IND2",
-                "type": "png"
-            },
-            {
-                "file": "images/DEN.png",
-                "name": "DEN",
+                "file": "images/ARI.png",
+                "name": "ARI",
                 "type": "png"
             }
         ]

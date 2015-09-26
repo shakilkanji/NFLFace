@@ -5,6 +5,8 @@
 #define KEY_NETWORK_INFO 2
 #define KEY_DATE_INFO 3
 #define KEY_DESIRED_TEAM 4
+#define KEY_PERSIST_TEAM 5
+#define KEY_TWENTY_FOUR_HOUR_FORMAT 6
   
 static Window *s_main_window;
 static TextLayer *s_time_layer;
@@ -22,6 +24,10 @@ static GBitmap *s_background_bitmap;
 
 static bool twenty_four_hour_format = false;
 
+static char home_layer_buffer[16];
+static char away_layer_buffer[16];
+static char network_layer_buffer[16];
+static char date_layer_buffer[16];
 static char desired_team_buffer[16];
 
 static void update_time() {
@@ -43,6 +49,10 @@ static void update_time() {
 
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, s_time_buffer);
+}
+
+static void set_time_format(bool box_checked) {
+  twenty_four_hour_format = (box_checked) ? true : false;
 }
 
 static uint32_t choose_resource_id() {
@@ -145,6 +155,11 @@ static uint32_t choose_resource_id() {
 }
 
 static void main_window_load(Window *window) {
+  // Check to see if a desired team has already been selescted
+  if (persist_exists(KEY_PERSIST_TEAM)) {
+    persist_read_string(KEY_PERSIST_TEAM, desired_team_buffer, sizeof(desired_team_buffer));
+  }
+  
   //Create GBitmap, then set to created BitmapLayer
   s_background_bitmap = gbitmap_create_with_resource(choose_resource_id());
   s_background_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
@@ -159,6 +174,8 @@ static void main_window_load(Window *window) {
   
   // Create GFont: credit www.dafont.com
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_FRESHMAN_40));
+  s_scores_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_20));
+  s_info_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_14));
   
   // Apply to TextLayer
   text_layer_set_font(s_time_layer, s_time_font);
@@ -172,32 +189,26 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_home_layer, GColorClear);
   text_layer_set_text_color(s_home_layer, GColorWhite);
   text_layer_set_text_alignment(s_home_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_home_layer, "");
   
   // Create Away Layer
   s_away_layer = text_layer_create(GRect(72, 115, 72, 20));
   text_layer_set_background_color(s_away_layer, GColorClear);
   text_layer_set_text_color(s_away_layer, GColorWhite);
   text_layer_set_text_alignment(s_away_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_home_layer, "");
-  
+
   // Create Network Layer
   s_network_layer = text_layer_create(GRect(0, 135, 144, 16));
   text_layer_set_background_color(s_network_layer, GColorClear);
   text_layer_set_text_color(s_network_layer, GColorWhite);
   text_layer_set_text_alignment(s_network_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_home_layer, "No connection...");
-  
+
   // Create Date Layer
   s_date_layer = text_layer_create(GRect(0, 151, 144, 16));
   text_layer_set_background_color(s_date_layer, GColorClear);
   text_layer_set_text_color(s_date_layer, GColorWhite);
   text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_home_layer, "");
   
   // Create second custom font, apply it and add to Window
-  s_scores_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
-  s_info_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_14));
   text_layer_set_font(s_home_layer, s_scores_font);
   text_layer_set_font(s_away_layer, s_scores_font);
   text_layer_set_font(s_network_layer, s_info_font);
@@ -213,6 +224,9 @@ static void main_window_load(Window *window) {
 }
 
 static void main_window_unload(Window *window) {
+  // Store data to memory
+  persist_write_string(KEY_PERSIST_TEAM, desired_team_buffer);
+  
   // Unload GFont
   fonts_unload_custom_font(s_time_font);
   fonts_unload_custom_font(s_scores_font);
@@ -243,8 +257,8 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     DictionaryIterator *iter;
     app_message_outbox_begin(&iter);
 
-    // Add a key-value pair
-    dict_write_uint8(iter, 0, 0);
+    // Add a key-value pair, send persisting team to JS
+    dict_write_cstring(iter, 4, desired_team_buffer);
 
     // Send the message!
     app_message_outbox_send();
@@ -252,12 +266,6 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 }
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-  // Store incoming information
-  static char home_layer_buffer[16];
-  static char away_layer_buffer[16];
-  static char network_layer_buffer[16];
-  static char date_layer_buffer[16];
-  
   // Read first item
   Tuple *t = dict_read_first(iterator);
 
@@ -285,6 +293,8 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       main_window_unload(s_main_window);
       main_window_load(s_main_window);
       break;
+    case KEY_TWENTY_FOUR_HOUR_FORMAT:
+      set_time_format(t->value->int8);
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
@@ -313,9 +323,7 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
   APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
   
-static void init() {
-//   persist_read_string(KEY_DESIRED_TEAM, desired_team_buffer, sizeof(desired_team_buffer));
-  
+static void init() {  
   // Create main Window element and assign to pointer
   s_main_window = window_create();
   
@@ -341,9 +349,7 @@ static void init() {
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 }
 
-static void deinit() {
-//   persist_write_string(KEY_DESIRED_TEAM, desired_team_buffer);
-  
+static void deinit() {  
   // Destroy Window
   window_destroy(s_main_window);
 }

@@ -1,5 +1,6 @@
 // Create a global variable for the user's desired team
-var desired_team = "SF";
+var desired_team;
+var twenty_four_hour_format;
 
 var xhrRequest = function (url, type, callback) {
   var xhr = new XMLHttpRequest();
@@ -21,7 +22,7 @@ function getScores(pos) {
       var scores = JSON.parse(responseText);
 
       // Find desired game
-      function findGame(scores) {
+      function findGame(scores) {        
         for (var i =0; i < 16; i++) {
           var game = Object.keys(scores)[i];
           var game_string = String(game);
@@ -104,14 +105,14 @@ function getScores(pos) {
         "KEY_AWAY_INFO": away_info,
         "KEY_NETWORK_INFO": network_info,
         "KEY_DATE_INFO": date_info,
-        "KEY_DESIRED_TEAM": desired_team
+        "KEY_DESIRED_TEAM": desired_team,
+        "KEY_TWENTY_FOUR_HOUR_FORMAT": twenty_four_hour_format
       };
-
+      
       // Send to Pebble
       Pebble.sendAppMessage(dictionary,
         function(e) {
           console.log("Scores sent to Pebble successfully!");
-          console.log(desired_team);
         },
         function(e) {
           console.log("Error sending scores to Pebble!");
@@ -125,16 +126,14 @@ function getScores(pos) {
 Pebble.addEventListener('ready', 
   function(e) {
     console.log("PebbleKit JS ready!");
-
-    // Get the initial scores
-    getScores();
   }
 );
 
 // Listen for when an AppMessage is received
 Pebble.addEventListener('appmessage',
   function(e) {
-    console.log("AppMessage received!");
+    console.log("Received message:" + JSON.stringify(e.payload));
+    desired_team = e.payload.KEY_DESIRED_TEAM;
     getScores();
   }                     
 );
@@ -153,5 +152,6 @@ Pebble.addEventListener('webviewclosed', function(e) {
   console.log('Configuration page returned: ' + JSON.stringify(configData));
 
   desired_team = configData.faveTeam;
+  twenty_four_hour_format = configData.twentyFourHourFormat;
   getScores();
 });
