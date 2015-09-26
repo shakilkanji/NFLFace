@@ -30,6 +30,8 @@ static char network_layer_buffer[16];
 static char date_layer_buffer[16];
 static char desired_team_buffer[16];
 
+static void get_data();
+
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL); 
@@ -253,21 +255,29 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   
   // Get scores update every 10 minutes
   if(tick_time->tm_min % 10 == 0) {
-    // Begin dictionary
-    DictionaryIterator *iter;
-    app_message_outbox_begin(&iter);
-
-    // Add a key-value pair, send persisting team to JS
-    dict_write_cstring(iter, 4, desired_team_buffer);
-
-    // Send the message!
-    app_message_outbox_send();
+    get_data();
   }
+}
+
+static void get_data() {
+  // Begin dictionary
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+
+  // Add a key-value pair, send persisting team to JS
+  dict_write_cstring(iter, 4, desired_team_buffer);
+
+  // Send the message!
+  app_message_outbox_send();
 }
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   // Read first item
   Tuple *t = dict_read_first(iterator);
+  if (t == NULL) {
+    get_data();
+    return;
+  }
 
   // For all items
   while(t != NULL) {

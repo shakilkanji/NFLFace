@@ -22,7 +22,7 @@ function getScores(pos) {
       var scores = JSON.parse(responseText);
 
       // Find desired game
-      function findGame(scores) {        
+      function findGame(scores) {
         for (var i =0; i < 16; i++) {
           var game = Object.keys(scores)[i];
           var game_string = String(game);
@@ -122,10 +122,25 @@ function getScores(pos) {
   );
 }
 
+function send_empty_dictionary() {
+  var dictionary = {
+    "KEY_DESIRED_TEAM": null
+  };
+  Pebble.sendAppMessage(dictionary,
+    function(e) {
+      console.log("Sent empty dictionary to prompt initial get_data");
+    },
+    function(e) {
+      console.log("Empty dictionary not sent!");
+    }
+  );
+}
+
 // Listen for when the watchface is opened
 Pebble.addEventListener('ready', 
   function(e) {
     console.log("PebbleKit JS ready!");
+    send_empty_dictionary();
   }
 );
 
