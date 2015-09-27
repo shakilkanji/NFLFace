@@ -60,7 +60,7 @@ function getScores(pos) {
       
       var down = scores[desired_game_string].down;
       var togo = scores[desired_game_string].togo;
-      var down_togo = down + " and " + togo;
+      var down_togo = down + "&" + togo;
       
       var yard_line = scores[desired_game_string].yl;
       var posteam = scores[desired_game_string].posteam;
@@ -86,7 +86,7 @@ function getScores(pos) {
         network_info = network;
         date_info = "Pregame";
       }
-      else if (quarter === 1 || quarter === 2 || quarter === 3 || quarter === 4) {
+      else if (quarter === "1" || quarter === "2" || quarter === "3" || quarter === "4") {
         home_info = home + " " + home_score;
         away_info = away + " " + away_score;
         network_info = info_string;
@@ -155,7 +155,7 @@ Pebble.addEventListener('appmessage',
 
 // Listen for when the config page is opened
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'https://32acf9cc.ngrok.io/';
+  var url = 'https://shakilkanji.github.io';
   console.log('Showing configuration page: ' + url);
 
   Pebble.openURL(url);
