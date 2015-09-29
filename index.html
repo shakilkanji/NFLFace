@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel='stylesheet' type='text/css' href='/bower_components/pebble-slate/dist/css/slate.css'>
+  <link rel='stylesheet' type='text/css' href='/css/style.css'>
+</head>
+<body>
+  <div class='item-container'>
+    <h1 class='title'>NFLFace<br>Configuration Page</h1>
+  </div>
+
+  <div class='item-container'>
+    <div class='item-container-content'>
+      <div class='item'>
+        Use this configuration page to choose the settings you would like
+        applied to this app.
+      </div>
+    </div>
+  </div>
+
+  <div class='item-container'>
+    <div class='item-container-header'>Customizability</div>
+    <div class='item-container-content'>
+      <label class='item'>
+        Favourite Team
+        <select id="faveTeam" name="select-1" dir='rtl' class="item-select">
+          <option class="item-select-option">ARI</option>
+          <option class="item-select-option">ATL</option>
+          <option class="item-select-option">BAL</option>
+          <option class="item-select-option">BUF</option>
+          <option class="item-select-option">CAR</option>
+          <option class="item-select-option">CHI</option>
+          <option class="item-select-option">CIN</option>
+          <option class="item-select-option">CLE</option>
+          <option class="item-select-option">DAL</option>
+          <option class="item-select-option">DEN</option>
+          <option class="item-select-option">DET</option>
+          <option class="item-select-option">GB</option>
+          <option class="item-select-option">HOU</option>
+          <option class="item-select-option">IND</option>
+          <option class="item-select-option">JAC</option>
+          <option class="item-select-option">KC</option>
+          <option class="item-select-option">MIA</option>
+          <option class="item-select-option">MIN</option>
+          <option class="item-select-option">NE</option>
+          <option class="item-select-option">NO</option>
+          <option class="item-select-option">NYG</option>
+          <option class="item-select-option">NYJ</option>
+          <option class="item-select-option">OAK</option>
+          <option class="item-select-option">PIT</option>
+          <option class="item-select-option">STL</option>
+          <option class="item-select-option">SD</option>
+          <option class="item-select-option" selected>SF</option>
+          <option class="item-select-option">SEA</option>
+          <option class="item-select-option">TB</option>
+          <option class="item-select-option">TEN</option>
+          <option class="item-select-option">WAS</option>
+        </select>
+      </label>
+      <label class='item'>
+        24-Hour Format
+        <input id='timeFormatCheckbox' type='checkbox' class='item-checkbox'>
+      </label>
+    </div>
+    <div class='item-container-footer'>
+      These settings only change on the watch after you click submit.
+    </div>
+  </div>
+
+  <div class='item-container'>
+    <div class='button-container'>
+      <input id='submitButton' type='button' class='item-button' value='SUBMIT'>
+    </div>
+  </div>
+
+  <script src='/bower_components/pebble-slate/dist/js/slate.js'></script>
+  <script src='/js/main.js'></script>
+</body>
+</html>
