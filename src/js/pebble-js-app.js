@@ -86,11 +86,17 @@ function getScores(pos) {
         network_info = network;
         date_info = "Pregame";
       }
-      else if (quarter === "1" || quarter === "2" || quarter === "3" || quarter === "4") {
+      else if (quarter === "1" || quarter === "2" || quarter === "3" || quarter === "4" || quarter === "Halftime") {
         home_info = home + " " + home_score;
         away_info = away + " " + away_score;
         network_info = info_string;
         date_info = time_string;
+      }
+      else if (quarter === "Halftime") {
+        home_info = home + " " + home_score;
+        away_info = away + " " + away_score;
+        network_info = "Halftime";
+        date_info = "";
       }
       else {
         home_info = home + " " + home_score;
@@ -155,7 +161,7 @@ Pebble.addEventListener('appmessage',
 
 // Listen for when the config page is opened
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'https://shakilkanji.github.io';
+  var url = 'http://shakilkanji.github.io/NFLFace/';
   console.log('Showing configuration page: ' + url);
 
   Pebble.openURL(url);

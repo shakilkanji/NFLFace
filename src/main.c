@@ -253,8 +253,8 @@ static void main_window_unload(Window *window) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
   
-  // Get scores update every 10 minutes
-  if(tick_time->tm_min % 10 == 0) {
+  // Get scores update every 3 minutes
+  if(tick_time->tm_min % 3 == 0) {
     get_data();
   }
 }
