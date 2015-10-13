@@ -1,6 +1,16 @@
-// Create a global variable for the user's desired team
+//
+//  pebble-js-app.js
+//  NFLFace
+//
+//  Created by Shakil Kanji
+
+
+// Create a global variable for user's preferences
 var desired_team;
 var twenty_four_hour_format;
+
+// Construct URL to retrieve scores data
+var url = "http://www.nfl.com/liveupdate/scores/scores.json";
 
 var xhrRequest = function (url, type, callback) {
   var xhr = new XMLHttpRequest();
@@ -12,32 +22,16 @@ var xhrRequest = function (url, type, callback) {
 };
 
 function getScores(pos) {
-  // Construct URL
-  var url = "http://www.nfl.com/liveupdate/scores/scores.json";
-
   // Send request to nfl.com
   xhrRequest(url, 'GET', 
     function(responseText) {
-      // responseText contains a JSON object with weather info
+      // responseText contains a JSON object with scores info
       var scores = JSON.parse(responseText);
 
       // Find desired game
-      function findGame(scores) {
-        for (var i =0; i < 16; i++) {
-          var game = Object.keys(scores)[i];
-          var game_string = String(game);
-          var home_team = scores[game_string].home.abbr;
-          if (String(home_team) == desired_team) {
-            return game_string;
-          }
-          var away_team = scores[game_string].away.abbr;
-          if (String(away_team) == desired_team) {
-            return game_string;
-          }
-        }
-      }
       var desired_game_string = findGame(scores);
       
+      // GAME DETAILS
       // Home Team and Score
       var home = scores[desired_game_string].home.abbr;
       var home_score = scores[desired_game_string].home.score.T;
@@ -46,15 +40,18 @@ function getScores(pos) {
       var away = scores[desired_game_string].away.abbr;      
       var away_score = scores[desired_game_string].away.score.T;
       
-      // Game details
+      // Network showing the desired game
       var network = scores[desired_game_string].media.tv;
       
+      // Date of game
       var month = desired_game_string.substring(4,6);
       var day = desired_game_string.substring(6,8);
       var date = month + "/" + day;
       
+      // In-game info
       var quarter = scores[desired_game_string].qtr;
       var qtr_string = "Q" + quarter;
+
       var time_left = scores[desired_game_string].clock;
       var time_string = qtr_string + " " + time_left;
       
@@ -74,7 +71,13 @@ function getScores(pos) {
       var date_info;
       
       // Conditions for Pregame, Ingame, Postgame
-      if (quarter === null) {
+      if (desired_game_string == "BYE WEEK") {
+        home_info = "";
+        away_info = "";
+        network_info = desired_game_string;
+        date_info = "";
+      }
+      else if (quarter === null) {
         home_info = home;
         away_info = away;
         network_info = network;
@@ -86,7 +89,7 @@ function getScores(pos) {
         network_info = network;
         date_info = "Pregame";
       }
-      else if (quarter === "1" || quarter === "2" || quarter === "3" || quarter === "4" || quarter === "Halftime") {
+      else if (quarter === "1" || quarter === "2" || quarter === "3" || quarter === "4") {
         home_info = home + " " + home_score;
         away_info = away + " " + away_score;
         network_info = info_string;
@@ -128,6 +131,25 @@ function getScores(pos) {
   );
 }
 
+//---------------------- HELPER FUNCTIONS ------------------------------
+
+function findGame(scores) {
+  for (var i =0; i < 16; i++) {
+    var game = Object.keys(scores)[i];
+    var game_string = String(game);
+    var home_team = scores[game_string].home.abbr;
+    if (String(home_team) == desired_team) {
+      return game_string;
+    }
+    var away_team = scores[game_string].away.abbr;
+    if (String(away_team) == desired_team) {
+      return game_string;
+    } else {
+      return "BYE WEEK";
+    }
+  }
+}
+
 function send_empty_dictionary() {
   var dictionary = {
     "KEY_DESIRED_TEAM": null
@@ -141,6 +163,8 @@ function send_empty_dictionary() {
     }
   );
 }
+
+//---------------------- EVENT LISTENERS ------------------------------
 
 // Listen for when the watchface is opened
 Pebble.addEventListener('ready', 

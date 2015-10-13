@@ -1,3 +1,9 @@
+//
+//  main.c
+//  NFLFace
+//
+//  Created by Shakil Kanji
+
 #include <pebble.h>
   
 #define KEY_HOME_INFO 0
@@ -162,7 +168,7 @@ static void main_window_load(Window *window) {
     persist_read_string(KEY_PERSIST_TEAM, desired_team_buffer, sizeof(desired_team_buffer));
   }
   
-  //Create GBitmap, then set to created BitmapLayer
+  // Create GBitmap, then set to created BitmapLayer
   s_background_bitmap = gbitmap_create_with_resource(choose_resource_id());
   s_background_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
   bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
